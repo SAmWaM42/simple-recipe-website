@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+
+    </head>
+    <body>
+<img src="img/assets/bread.jpg" id="image" style="max-width: 10%;max-height: 10%;">
+<button type="button" id="next"
+onclick="
+next()
+">change picture</button>
+
+    </body>
+<script>
+
+ 
+    
+  var file="img/assets/"
+    var images=["bread.jpg",
+       "cookie.jpeg","logo.jpg"
+];
+var count=0;
+
+function next()
+{
+    count=(count+1)%images.length;
+    document.getElementById("image").src=file.concat(images[count]);
+
+}
+
+
+
+
+
+
+</script>
+
+</html>

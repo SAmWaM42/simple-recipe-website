@@ -1,0 +1,82 @@
+use APP;
+
+drop table posts;
+drop table users;
+create table users
+(
+   username varchar(56),
+   passwrd varchar(15),
+   privilage varchar(15),
+   age int,
+   email varchar(100),
+   ID int primary key
+
+  );
+CREATE TABLE posts
+(     title  varchar(100),
+      description varchar(300),
+      url varchar(200),
+      ingridients varchar(600),
+      method varchar(1000),
+      post_date date,
+      user_id int ,
+      ID int primary key ,
+ FOREIGN key (user_id) REFERENCES  users(ID)
+);
+create table comments
+(
+    ID int primary key,
+    post_id int,
+    user_id int,
+    content varchar(100),
+   FOREIGN KEY (post_id) REFERENCES posts(ID),
+    FOREIGN KEY (user_id) REFERENCES users(ID)
+);
+create table media
+(
+ID int PRIMARY KEY ,
+title varchar(50),
+desription varchar(300),
+ url varchar(100)
+    
+);
+
+<a href="http://localhost/webapp/sign_in_page.php" >
+                            <?php
+                                if (isset($_SESSION["ID"])) {
+
+                                    $id = $_SESSION["ID"];
+                                    include "conn.php";
+                                    $conn = connect();
+                                
+                                } else {
+                                    $mess = "sign_up";
+                                }?> 
+                                
+
+                                <?php
+                                if (isset($mess)) {
+                                    echo $mess;
+                                }
+                                ?>
+
+                            </a>
+                        </li>
+                        <li>
+                            <?php
+                            $link = "http://localhost/webapp/page.php";
+                            $name = "log_in";
+                            if (isset($_SESSION["ID"])) {
+                                $link = "";
+                                $res = $conn->execute_query("select username from users where id=$id");
+                                $name = $res->fetch_assoc();
+                            }
+
+                            ?>
+                            <a href=<?php echo $link ?> class="login_in">
+                                <?php echo $name["username"] ?></a>
+                        </li>
+                        <li class="discover">
+                            <a href="" class="discover">discover</a>
+                        </li>
+                    </ul>
