@@ -20,9 +20,9 @@ if ($username == null || $password == null)
 }
 else
   {
-    $conn = connect();
+ $conn = connect();
 
-$check = "select * from users where username='$username' and passwrd='$password'";
+$check = "select * from users where username='$username'";
 $message = '';
 $result = $conn->execute_query($check);
 

@@ -24,7 +24,7 @@ if ($_POST["username"] == null ||$_POST["email"] == null ||$_POST["dob"] == null
     echo $date;
 
     $age = intval(date('Y')) - intval($date . date('Y'));
-    $password =$_POST["password"];
+    $password = password_hash($_POST["password"],PASSWORD_DEFAULT);
     $id;
     $privilage = "user";
     $profile="";
@@ -62,7 +62,12 @@ if ($_POST["username"] == null ||$_POST["email"] == null ||$_POST["dob"] == null
 }
 
 
-    $conn->execute_query("insert into users values ('$user','$password','$privilage','$email',$id,'$description','$prof_name','$date')");
+$conn->execute_query("
+  INSERT INTO users 
+  (username, passwrd, privilage, email, ID, description, profile_pic, dob)
+  VALUES ('$user', '$password', '$privilage', '$email', $id, '$description', '$prof_name', '$date')
+");
+
     $_SESSION["ID"]=$id;
     $_SESSION["user"]=$user;
     $_SESSION["priv"]=$privilage;
