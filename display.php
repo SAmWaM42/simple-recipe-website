@@ -43,7 +43,7 @@ $data=$conn->execute_query("select * from users where ID=$id");
             $i++;
             break;
             case "passwrd":
-              echo ' <h2 style="width: 80%; display:block";><span style="text-transform:uppercase;margin-right:25%;margin-left:15%;">'.$cols[$i]->name.':</span>'.$value.'</h2>';
+           
              $i++;
              break;
              case "email":

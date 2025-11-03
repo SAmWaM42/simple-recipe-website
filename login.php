@@ -5,10 +5,12 @@ if(isset($_SESSION["ID"]))
   header("Location:home.php");
   exit;
 }
- include "conn.php";
-$username = $_GET["username"];
-$password = $_GET["password"];
-if ($username == null || $password == null)
+
+include "conn.php";
+
+
+
+if ($_GET["username"] == null || $_GET["password"] == null)
  {
 
   $message = "no credentials";
@@ -19,39 +21,34 @@ if ($username == null || $password == null)
 
 }
 else
-  {
- $conn = connect();
+{
 
-$check = "select * from users where username='$username'";
+$password = $_GET["password"];
+$username = $_GET["username"];
+$conn = connect();
+$stmt = $conn->prepare("select * from users where username=? ");
+$stmt->bind_param("s",$username);
 $message = '';
-$result = $conn->execute_query($check);
+$stmt->execute();
+$result =$stmt->get_result();
 
 
-if ($result->num_rows == 0) {
+if (!$DATA=$result->fetch_assoc()) {
 
-
-  $check2 = $conn->execute_query("select passwrd from users where username='$username'");
-  if ($check2->num_rows == 0)
-  {
     $message = "invalid username";
     session_abort();
     header("Location:login_page.php?error=$message");
 
-  }
-  //make it work for a hashing funtion to increase security
-  else if ($check2 != $password) {
+}
+if(!password_verify($password,$DATA["passwrd"]))
+{
     $message = "invalid password";
     session_abort();
     header("Location:login_page.php?error=$message");
-  }
-}
-  }
 
-$DATA = mysqli_fetch_assoc($result);
+}
 if ($result->num_rows > 0)
  {
-
-
 
   echo $DATA["username"];
   $id = $DATA["ID"];
@@ -61,6 +58,7 @@ if ($result->num_rows > 0)
   $_SESSION["user"]=$username;
   $_SESSION["priv"]=$DATA["privilage"];
   header("Location:home.php");
+}
 }
 
 

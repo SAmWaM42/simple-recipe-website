@@ -6,7 +6,6 @@
                 
     </div >
     <img src="img/assets/potimg.png" alt="">
-
     <div class="below_fold">
         <div class="info">
             <div id="info_1">
